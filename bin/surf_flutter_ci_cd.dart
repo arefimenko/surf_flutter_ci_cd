@@ -30,9 +30,7 @@ void main(List<String> arguments) {
     exit(1);
   }
 
-  if (arguments.isEmpty ||
-      arguments.contains('-h') ||
-      arguments.contains('--help')) {
+  if (arguments.isEmpty || arguments.contains('-h') || arguments.contains('--help')) {
     print(
         'Usage: dart script.dart [build|deploy] --env=<environment> --proj=<project> --target=<target platform>');
     print(parser.usage);
@@ -80,8 +78,7 @@ Future<void> _buildAndDeploy(
   await _deploy(proj, env, target, deployTo);
 }
 
-Future<void> _build(
-    String proj, String env, String target, String deployTo) async {
+Future<void> _build(String proj, String env, String target, String deployTo) async {
   final yamlContent = await File('cd.yaml').readAsString();
   final config = loadYaml(yamlContent) as Map;
   final flavor = config[proj][env][target]['build']['flavor'] as String;
@@ -131,8 +128,7 @@ Future<void> _deploy(
   final String? testflightKeyId;
   final String? testflightIssuerId;
   if (secretsYaml.existsSync()) {
-    secretsMap.addAll(
-        loadYaml(await secretsYaml.readAsString()) as Map<dynamic, dynamic>);
+    secretsMap.addAll(loadYaml(await secretsYaml.readAsString()) as Map<dynamic, dynamic>);
     token = secretsMap['firebase_token'] as String;
     testflightKeyId = secretsMap['testflight_key_id'] as String;
     testflightIssuerId = secretsMap['testflight_issuer_id'] as String;
@@ -153,10 +149,9 @@ Future<void> _deploy(
       switch (deployTo) {
         // Firebase
         case 'fb':
-          final appId = config[proj][env][target]['deploy']['firebase']
-              ['firebase_app_id'] as String;
-          final groups = config[proj][env][target]['deploy']['firebase']
-              ['groups'] as String;
+          final appId =
+              config[proj][env][target]['deploy']['firebase']['firebase_app_id'] as String;
+          final groups = config[proj][env][target]['deploy']['firebase']['groups'] as String;
           final flavor = config[proj][env][target]['build']['flavor'] as String;
 
           await deployAndroidToFirebase(
@@ -168,8 +163,8 @@ Future<void> _deploy(
           break;
         case 'gp':
           final flavor = config[proj][env][target]['build']['flavor'] as String;
-          final packageName = config[proj][env][target]['deploy']['google_play']
-              ['package_name'] as String;
+          final packageName =
+              config[proj][env][target]['deploy']['google_play']['package_name'] as String;
 
           await deployAndroidToGPC(
             packageName: packageName,
@@ -177,8 +172,7 @@ Future<void> _deploy(
           );
           break;
         default:
-          Printer.printError(
-              'Wrong deployTo param for android. Current value: $deployTo');
+          Printer.printError('Wrong deployTo param for android. Current value: $deployTo');
           exit(1);
       }
       break;
@@ -186,20 +180,17 @@ Future<void> _deploy(
       switch (deployTo) {
         // TestFlight
         case 'tf':
-          await deployIosToTestFlight(
-              keyId: testflightKeyId, issuerId: testflightIssuerId);
+          await deployIosToTestFlight(keyId: testflightKeyId, issuerId: testflightIssuerId);
           break;
         case 'fb':
-          final appId = config[proj][env][target]['deploy']['firebase']
-              ['firebase_app_id'] as String;
-          final groups = config[proj][env][target]['deploy']['firebase']
-              ['groups'] as String;
+          final appId =
+              config[proj][env][target]['deploy']['firebase']['firebase_app_id'] as String;
+          final groups = config[proj][env][target]['deploy']['firebase']['groups'] as String;
           deployIosToFirebase(appId: appId, groups: groups, token: token);
 
           break;
         default:
-          Printer.printError(
-              'Wrong deployTo param for ios. Current value: $deployTo');
+          Printer.printError('Wrong deployTo param for ios. Current value: $deployTo');
           exit(1);
       }
       break;

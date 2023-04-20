@@ -26,8 +26,7 @@ class DeployHelper {
       copiedMakefile = await makefile.copy('$platformDirectoryName/Makefile');
 
       final fastlaneDirPath = await PackagePathResolver.resolve(
-        path:
-            'package:surf_flutter_ci_cd/lib/src/$platformDirectoryName/fastlane',
+        path: 'package:surf_flutter_ci_cd/lib/src/$platformDirectoryName/fastlane',
       );
 
       fastlaneDestinationDir = await _createFastlaneDirectory(
@@ -65,8 +64,7 @@ class DeployHelper {
     String fileName,
   ) async {
     final makeFilePath = await PackagePathResolver.resolve(
-      path:
-          'package:surf_flutter_ci_cd/lib/src/$platformDirectoryName/$fileName',
+      path: 'package:surf_flutter_ci_cd/lib/src/$platformDirectoryName/$fileName',
     );
 
     final makefile = File(makeFilePath);
@@ -79,8 +77,7 @@ class DeployHelper {
     String platformDirectoryName,
   ) async {
     final fastlaneSourceDir = Directory(sourcePath);
-    final fastlaneDestinationDir = Directory('$platformDirectoryName/fastlane')
-      ..createSync();
+    final fastlaneDestinationDir = Directory('$platformDirectoryName/fastlane')..createSync();
 
     fastlaneSourceDir.copy(fastlaneDestinationDir);
 

@@ -14,8 +14,7 @@ Future<void> deployAndroidToFirebase({
   String? token,
 }) async {
   // Путь хранения собранного APK файла.
-  final source =
-      Directory('${Directory.current.path}/build/app/outputs/flutter-apk/');
+  final source = Directory('${Directory.current.path}/build/app/outputs/flutter-apk/');
   // Путь до папки lib/ пакета внутри основного проекта.
   final rootPath = await PackagePathResolver.packagePath();
   // Путь в котором будет хранится скопированные данные из [source]
@@ -28,8 +27,7 @@ Future<void> deployAndroidToFirebase({
     pattern: flavor,
   );
 
-  final apkPath =
-      '../../build/app/outputs/flutter-apk/${path.basename(outputApkFiles.first.path)}';
+  final apkPath = '../../build/app/outputs/flutter-apk/${path.basename(outputApkFiles.first.path)}';
 
   await for (final file in destination.list(recursive: true)) {
     Printer.printSuccess('APK file path ${file.path}');
@@ -60,8 +58,7 @@ Future<void> deployAndroidToGPC({
   required String flavor,
 }) async {
   // Путь хранения собранного AppBundle файла.
-  final source =
-      Directory('${Directory.current.path}/build/app/outputs/bundle/');
+  final source = Directory('${Directory.current.path}/build/app/outputs/bundle/');
   // Путь до папки lib/ пакета внутри основного проекта.
   final rootPath = await PackagePathResolver.packagePath();
   // Путь в котором будет хранится скопированные данные из [source]
@@ -74,8 +71,7 @@ Future<void> deployAndroidToGPC({
     pattern: flavor,
   );
 
-  final appPath =
-      '../../build/app/outputs/bundle/${path.basename(outputAppFiles.first.path)}';
+  final appPath = '../../build/app/outputs/bundle/${path.basename(outputAppFiles.first.path)}';
 
   await for (final file in destination.list(recursive: true)) {
     Printer.printSuccess('AAB file path ${file.path}');
@@ -90,8 +86,7 @@ Future<void> deployAndroidToGPC({
   final outputJsonFile = await _copyFilesWithExtension(
       source: keySource, destination: keyDestination, extension: '.json');
 
-  final jsonPath =
-      '../../android/keystore/${path.basename(outputJsonFile.first.path)}';
+  final jsonPath = '../../android/keystore/${path.basename(outputJsonFile.first.path)}';
 
   await for (final file in keyDestination.list(recursive: true)) {
     Printer.printSuccess('Json key file path ${file.path}');
@@ -200,8 +195,7 @@ Future<String> _getIpaPath(String rootPath) async {
   final outputIpaFiles = await _copyFilesWithExtension(
       source: ipaSource, destination: ipaDestination, extension: '.ipa');
 
-  final ipaPath =
-      '../../build/ios/ipa/${path.basename(outputIpaFiles.first.path)}';
+  final ipaPath = '../../build/ios/ipa/${path.basename(outputIpaFiles.first.path)}';
   return ipaPath;
 }
 
@@ -258,8 +252,7 @@ Future<List<File>> _copyFilesWithExtension({
     if (!(name.contains(pattern.toLowerCase()))) continue;
 
     final sourceFile = File(entity.path);
-    final destinationFile =
-        File('${destination.path}/${sourceFile.path.split('/').last}');
+    final destinationFile = File('${destination.path}/${sourceFile.path.split('/').last}');
     final outputFile = await sourceFile.copy(destinationFile.path);
     outputFiles.add(outputFile);
   }
@@ -273,8 +266,7 @@ Future<List<File>> _copyFilesWithExtension({
 
   /// Если итоговый файл не создался, то выводим ошибку и останавливаем программу.
   if (outputFiles.isEmpty) {
-    Printer.printError(
-        'No such file with extension $extension in $source or can not copy file.');
+    Printer.printError('No such file with extension $extension in $source or can not copy file.');
     exit(1);
   }
 

@@ -26,6 +26,5 @@ class PackagePathResolver {
     return fixedPath;
   }
 
-  static Future<String> packagePath() =>
-      resolve(path: 'package:surf_flutter_ci_cd/');
+  static Future<String> packagePath() => resolve(path: 'package:surf_flutter_ci_cd/');
 }

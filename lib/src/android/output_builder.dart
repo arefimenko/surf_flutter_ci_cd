@@ -29,8 +29,7 @@ class ApkBuilder implements IOutputBuilder {
     required String flags,
     required String projectName,
   }) async {
-    final jenkinsArchiveArtifactsLocation =
-        'build/app/outputs/apk/$flavor/release/';
+    final jenkinsArchiveArtifactsLocation = 'build/app/outputs/apk/$flavor/release/';
 
     await _buildApk(
       flavor: flavor,
@@ -57,9 +56,8 @@ class ApkBuilder implements IOutputBuilder {
     );
 
     final result = await Process.run(
-      'fvm',
+      'flutter',
       [
-        'flutter',
         'build',
         'apk',
         '-t',
@@ -111,8 +109,7 @@ class AppBundleBuilder implements IOutputBuilder {
     required String projectName,
     required String flags,
   }) async {
-    final jenkinsArchiveArtifactsLocation =
-        'build/app/outputs/bundle/$flavor/release/';
+    final jenkinsArchiveArtifactsLocation = 'build/app/outputs/bundle/$flavor/release/';
 
     await _buildAppBundle(
       buildType: buildType,
@@ -139,17 +136,8 @@ class AppBundleBuilder implements IOutputBuilder {
     );
 
     final result = await Process.run(
-      'fvm',
-      [
-        'flutter',
-        'build',
-        'appbundle',
-        '-t',
-        entryPointPath,
-        '--flavor',
-        flavor,
-        flags
-      ],
+      'flutter',
+      ['build', 'appbundle', '-t', entryPointPath, '--flavor', flavor, flags],
     );
     stdout.write(result.stdout);
     stderr.write(result.stderr);
@@ -180,6 +168,5 @@ class AppBundleBuilder implements IOutputBuilder {
     );
   }
 
-  String _appBundlePath(String flavor) =>
-      'build/app/outputs/bundle/${flavor}Release/';
+  String _appBundlePath(String flavor) => 'build/app/outputs/bundle/${flavor}Release/';
 }
